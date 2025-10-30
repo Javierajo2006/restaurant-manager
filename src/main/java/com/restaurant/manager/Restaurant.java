@@ -11,6 +11,7 @@ public class Restaurant {
     private String name;
     private List<String> menu;
     private double totalRevenue;
+    private List<String> reservations;
 
     /**
      * Constructor del restaurante
@@ -20,6 +21,7 @@ public class Restaurant {
         this.name = name;
         this.menu = new ArrayList<>();
         this.totalRevenue = 0.0;
+        this.reservations = new ArrayList<>();
     }
 
     /**
@@ -48,4 +50,32 @@ public class Restaurant {
 
     // TODO: Agregar métodos para gestionar menú y órdenes
     // Estos serán implementados por los developers en diferentes branches
+    
+    public void makeReservation(String customerName, int partySize, String dateTime) {
+    if (customerName == null || customerName.trim().isEmpty()) {
+        throw new IllegalArgumentException("El nombre del cliente es requerido");
+    }
+     if (partySize <= 0) {
+        throw new IllegalArgumentException("El tamaño del grupo debe ser positivo");
+    }
+    if (dateTime == null || dateTime.trim().isEmpty()) {
+        throw new IllegalArgumentException("La fecha y hora son requeridas");
+    }
+     String reservation = String.format("%s - %d personas - %s",
+            customerName.trim(), partySize, dateTime.trim());
+    reservations.add(reservation);
+}
+public List<String> getReservations() {
+    return new ArrayList<>(reservations);
+}
+
+public int getReservationCount() {
+    return reservations.size();
+}
+public boolean cancelReservation(String customerName) {
+    if (customerName == null || customerName.trim().isEmpty()) {
+        return false;
+    }
+    return reservations.removeIf(res -> res.startsWith(customerName.trim()));
+}
 }
